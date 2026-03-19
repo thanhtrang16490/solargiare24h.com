@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev --port 4321",
-    "start": "npx serve dist -l ${PORT:-3000} --single",
+    "start": "npx http-server dist -p ${PORT:-3000} --proxy http://localhost:${PORT:-3000}?",
     "optimize-images": "node optimize-images.mjs",
     "build": "astro build",
     "preview": "astro preview",

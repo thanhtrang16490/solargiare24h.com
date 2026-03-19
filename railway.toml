@@ -1,5 +1,5 @@
 [deploy]
-startCommand = "npx serve dist -l 4322 --single"
+startCommand = "npx http-server dist -p 4322 --proxy http://localhost:4322?"
 healthcheckPath = "/"
 healthcheckTimeout = 30
 

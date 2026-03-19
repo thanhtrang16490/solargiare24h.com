@@ -8,4 +8,4 @@ cmds = ["npm install"]
 cmds = ["npm run build"]
 
 [start]
-cmd = "npx serve dist -l 4322 --single"
+cmd = "npx http-server dist -p 4322 --proxy http://localhost:4322?"
