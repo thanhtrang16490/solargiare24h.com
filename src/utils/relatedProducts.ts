@@ -1,42 +1,23 @@
-import { supabase } from '../lib/supabase';
+import { MOCK_PRODUCTS as mockProducts } from '../data/mock-products';
 
 export async function getRelatedProducts(
   currentProduct: any,
   limit: number = 4
 ): Promise<any[]> {
-  try {
-    // Get products with same category or brand
-    const { data: products, error } = await supabase
-      .from('products')
-      .select('*')
-      .neq('id', currentProduct.id)
-      .or(`pd_cat_id.eq.${currentProduct.pd_cat_id},brand_id.eq.${currentProduct.brand_id}`)
-      .limit(limit);
+  const related = mockProducts
+    .filter(p => p.id !== currentProduct.id)
+    .filter(p =>
+      p.pd_cat_id === currentProduct.pd_cat_id ||
+      p.brand_id === currentProduct.brand_id
+    )
+    .slice(0, limit);
 
-    if (error) {
-      console.error('Error fetching related products:', error);
-      return [];
-    }
-
-    // If we don't have enough products, get random products
-    if (!products || products.length < limit) {
-      const { data: randomProducts, error: randomError } = await supabase
-        .from('products')
-        .select('*')
-        .neq('id', currentProduct.id)
-        .limit(limit - (products?.length || 0));
-
-      if (randomError) {
-        console.error('Error fetching random products:', randomError);
-        return products || [];
-      }
-
-      return [...(products || []), ...(randomProducts || [])];
-    }
-
-    return products || [];
-  } catch (error) {
-    console.error('Error in getRelatedProducts:', error);
-    return [];
+  if (related.length < limit) {
+    const others = mockProducts
+      .filter(p => p.id !== currentProduct.id && !related.includes(p))
+      .slice(0, limit - related.length);
+    return [...related, ...others];
   }
-} 
+
+  return related;
+}
