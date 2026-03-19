@@ -1,6 +1,5 @@
-'use client';
-
 import { useState, useEffect } from 'react';
+import { VOUCHERS } from '../data/client-data';
 
 interface Voucher {
   id: string;
@@ -27,26 +26,8 @@ export default function VoucherList() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchVouchers = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/api/vouchers');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch vouchers');
-        }
-        
-        const data = await response.json();
-        setVouchers(data.vouchers || []);
-      } catch (err) {
-        console.error('Error fetching vouchers:', err);
-        setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tải danh sách voucher');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchVouchers();
+    setVouchers(VOUCHERS as any);
+    setIsLoading(false);
   }, []);
 
   const handleCopyCode = async (code: string) => {

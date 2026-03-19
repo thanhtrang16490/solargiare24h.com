@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import type { Product } from "../../types";
 import ModalBuyNowForm from '../react/ModalBuyNowForm';
+import { NEW_PRODUCTS } from '../../data/client-data';
 
 const bannerImages = [
   "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&auto=format",
@@ -31,14 +32,8 @@ const MobileBestsellerProductsIsland: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/new-products")
-      .then((res) => res.json())
-      .then((data) => {
-        const items = data.products || data;
-        setProducts(Array.isArray(items) ? items.slice(0, 5) : []); // chỉ lấy 5 item
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    setProducts(NEW_PRODUCTS.slice(0, 5) as any);
+    setLoading(false);
   }, []);
 
   // Handle scroll event to update active dot

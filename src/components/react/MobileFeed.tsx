@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PROMOTIONS } from '../../data/client-data';
 
 interface Promotion {
   id: number;
@@ -57,53 +58,24 @@ export default function MobileFeed({
   };
 
   useEffect(() => {
-    // Load data from API if no promotions provided and haven't initialized yet
     if (promotions.length === 0 && !isLoading && !hasInitialized) {
-      setHasInitialized(true); // Mark as initialized to prevent re-running
-      
-      const fetchPromotions = async () => {
-        setLocalIsLoading(true);
-        setLocalError(null);
-        
-        try {
-          const response = await fetch('/api/promotions?page=1&limit=20');
-          
-          if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
-          }
-          
-          const data = await response.json();
-          
-          if (!data.promotions || !Array.isArray(data.promotions)) {
-            throw new Error('Invalid response format');
-          }
-
-          // Transform data to match expected format
-          const transformedPromotions: Promotion[] = data.promotions.map((promo: any) => ({
-            id: promo.id,
-            created_at: promo.created_at || new Date().toISOString(),
-            title: promo.name, // API trả về 'name' nhưng component expect 'title'
-            description: promo.description || '',
-            image: promo.image_url || '',
-            youtube_url: promo.video_url, // API trả về video_url (mapped từ youtube_url)
-            slug: promo.slug,
-            start_date: promo.start_date,
-            end_date: promo.end_date,
-            discount_type: promo.discount_type,
-            discount_value: promo.discount_value,
-            updated_at: promo.updated_at
-          }));
-          
-          setLocalPromotions(transformedPromotions);
-        } catch (error) {
-          console.error('Error fetching promotions:', error);
-          setLocalError(error instanceof Error ? error.message : 'Đã xảy ra lỗi khi tải promotions');
-        } finally {
-          setLocalIsLoading(false);
-        }
-      };
-
-      fetchPromotions();
+      setHasInitialized(true);
+      const transformed = PROMOTIONS.map(promo => ({
+        id: promo.id,
+        created_at: promo.start_date || new Date().toISOString(),
+        title: promo.name,
+        description: promo.description || '',
+        image: promo.image_url || '',
+        youtube_url: promo.video_url || undefined,
+        slug: promo.slug,
+        start_date: promo.start_date,
+        end_date: promo.end_date,
+        discount_type: promo.discount_type,
+        discount_value: promo.discount_value,
+        updated_at: promo.start_date,
+      }));
+      setLocalPromotions(transformed);
+      setLocalIsLoading(false);
     }
   }, []); // Remove dependencies to prevent infinite loop
 

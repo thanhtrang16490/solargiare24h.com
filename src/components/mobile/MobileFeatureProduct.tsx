@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ModalBuyNowForm from '../react/ModalBuyNowForm';
+import { ALL_PRODUCTS, BRANDS } from '../../data/client-data';
 
 function formatCurrency(value: number) {
   return value?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) || '';
@@ -147,15 +148,9 @@ const MobileFeatureProduct: React.FC = () => {
   const [modalProduct, setModalProduct] = useState<any>(null);
 
   useEffect(() => {
-    setLoading(true);
-    fetch('/api/mobile-feature-products')
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.products || []);
-        setBrands(data.brands || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    setProducts(ALL_PRODUCTS as any);
+    setBrands(BRANDS.map(b => ({ id: String(b.id), title: b.title, slug: b.slug })));
+    setLoading(false);
   }, []);
 
   // Group products by brand_id

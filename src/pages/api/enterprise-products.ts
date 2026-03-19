@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { mockProductAPI } from '../../data/mock-products';
 
+export const prerender = true;
+
 export const GET: APIRoute = async () => {
   try {
     // Sản phẩm tầm giá 1-3 triệu

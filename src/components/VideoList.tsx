@@ -1,10 +1,9 @@
-'use client';
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { VideoPlayer } from './video/VideoPlayer';
 import { VideoActions } from './video/VideoActions';
 import { VideoInfo } from './video/VideoInfo';
 import { VideoDrawer } from './video/VideoDrawer';
+import { BRANDS, PRODUCTS_WITH_VIDEO } from '../data/client-data';
 
 interface Product {
   id: string;
@@ -46,61 +45,22 @@ export default function VideoList() {
 
   // Fetch products with pagination
   const fetchProducts = useCallback(async (pageNumber = 1) => {
-    try {
-      if (pageNumber === 1) {
-        setLoading(true);
-      } else {
-        setLoadingMore(true);
-      }
-      
-      const response = await fetch(`/api/videos?page=${pageNumber}&limit=10`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (!data.products || !Array.isArray(data.products)) {
-        throw new Error('Invalid response format');
-      }
-
-      // API đã filter products có video_url rồi, không cần filter thêm
-      const productsWithVideo = data.products;
-      
-      if (pageNumber === 1) {
-        setProducts(productsWithVideo);
-      } else {
-        setProducts(prev => [...prev, ...productsWithVideo]);
-      }
-      
-      setHasMore(productsWithVideo.length === 10);
-      
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setError(error instanceof Error ? error.message : 'Đã xảy ra lỗi khi tải sản phẩm');
-    } finally {
-      if (pageNumber === 1) {
-        setLoading(false);
-      } else {
-        setLoadingMore(false);
-      }
+    const limit = 10;
+    const offset = (pageNumber - 1) * limit;
+    const slice = PRODUCTS_WITH_VIDEO.slice(offset, offset + limit) as any[];
+    if (pageNumber === 1) {
+      setProducts(slice);
+    } else {
+      setProducts(prev => [...prev, ...slice]);
     }
+    setHasMore(slice.length === limit);
+    setLoading(false);
+    setLoadingMore(false);
   }, []);
 
   // Fetch brands
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await fetch('/api/brands');
-        if (!response.ok) throw new Error('Lỗi khi tải thương hiệu');
-        const data = await response.json();
-        setBrands(data.brands || []);
-      } catch (err) {
-        console.error('Error fetching brands:', err);
-      }
-    };
-    fetchBrands();
+    setBrands(BRANDS.map(b => ({ id: String(b.id), title: b.title, slug: b.slug })));
   }, []);
 
   // Initial data load

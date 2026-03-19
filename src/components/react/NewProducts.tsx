@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ModalBuyNowForm from './ModalBuyNowForm';
+import { NEW_PRODUCTS } from '../../data/client-data';
 
 interface Product {
   id: string;
@@ -30,36 +31,8 @@ export default function NewProducts({ products: initialProducts = [] }: NewProdu
       setProducts(initialProducts);
       return;
     }
-
-    const fetchProducts = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch('/api/new-products');
-        const data = await res.json();
-        
-        if (!res.ok) {
-          throw new Error(data.error || 'Lỗi khi tải sản phẩm mới');
-        }
-        
-        if (!data.products || !Array.isArray(data.products)) {
-          throw new Error('Dữ liệu sản phẩm không hợp lệ');
-        }
-        
-        setProducts(data.products);
-      } catch (err: unknown) {
-        console.error('Error fetching new products:', err);
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Lỗi không xác định khi tải sản phẩm mới');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchProducts();
+    setProducts(NEW_PRODUCTS as any);
+    setLoading(false);
   }, [initialProducts.length]);
 
   const addToCart = (event: React.MouseEvent, product: Product) => {

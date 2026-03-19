@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-
-// Thêm import jsPDF từ CDN nếu chưa có
 // @ts-ignore
 import { jsPDF } from "jspdf";
-// Heroicons
 import { PrinterIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { z } from 'zod';
 import { orderAPI } from '../../lib/supabase';
 import { COMPANY_INFO } from '../../constants';
 import { sendOrderNotificationEmail, sendCustomerOrderConfirmation, formatOrderDataForEmail } from '../../lib/emailService';
+import { ALL_PRODUCTS } from '../../data/client-data';
 
 interface ModalBuyNowFormProps {
   open: boolean;
@@ -181,17 +179,7 @@ const ModalBuyNowForm: React.FC<ModalBuyNowFormProps> = ({ open, onClose, produc
   // Fetch sản phẩm khi mở modal chọn sản phẩm
   useEffect(() => {
     if (showAddProduct) {
-      setLoadingProducts(true);
-      setErrorProducts(null);
-      fetch('/api/products')
-        .then(res => res.json())
-        .then(data => {
-          setProductsFromApi(data.products || []);
-        })
-        .catch(err => {
-          setErrorProducts('Không thể tải danh sách sản phẩm');
-        })
-        .finally(() => setLoadingProducts(false));
+      setProductsFromApi(ALL_PRODUCTS as any);
     }
   }, [showAddProduct]);
 

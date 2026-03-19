@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ModalBuyNowForm from './ModalBuyNowForm';
+import { COMBO_PRODUCTS } from '../../data/client-data';
 
 interface Product {
   id: string;
@@ -91,22 +92,8 @@ const ComboProduct: React.FC<ComboProductProps> = ({ products: initialProducts =
   }, [initialProducts.length]);
 
   const fetchComboProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/combo-products');
-      const data = await response.json();
-
-      if (response.ok) {
-        setProducts(data.products || []);
-      } else {
-        setError(data.error || 'Failed to fetch products');
-      }
-    } catch (err) {
-      setError('Failed to fetch products');
-      console.error('Error fetching combo products:', err);
-    } finally {
-      setLoading(false);
-    }
+    setProducts(COMBO_PRODUCTS as any);
+    setLoading(false);
   };
 
   if (loading) {

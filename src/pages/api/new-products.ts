@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { mockProductAPI } from '../../data/mock-products';
 
+export const prerender = true;
+
 export const GET: APIRoute = async () => {
   try {
     const featuredProductIds = [17, 1, 5, 8, 11, 16];

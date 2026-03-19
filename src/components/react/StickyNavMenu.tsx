@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CATEGORIES } from '../../data/client-data';
 
 // Constants
 const COMPANY_INFO = {
@@ -47,40 +48,9 @@ const StickyNavMenu: React.FC = () => {
   // Fetch categories from API
   useEffect(() => {
     const fetchCategories = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch('/api/categories');
-        const data = await res.json();
-        
-        if (!res.ok) {
-          throw new Error(data.error || 'Lỗi khi tải danh mục');
-        }
-        
-        if (!data.product_cats || !Array.isArray(data.product_cats)) {
-          throw new Error('Dữ liệu danh mục không hợp lệ');
-        }
-        
-        const mapped = data.product_cats
-          .filter((cat: ApiCategory) => cat.product_count > 0) // Chỉ hiển thị categories có sản phẩm
-          .map((cat: ApiCategory) => ({
-            name: cat.title,
-            slug: cat.slug,
-            image_url: cat.image_square_url || cat.image_url || '/images/categories/default.jpg',
-            product_count: cat.product_count,
-          }));
-        
-        setCategories(mapped);
-      } catch (err: unknown) {
-        console.error('Error fetching categories:', err);
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Lỗi không xác định khi tải danh mục');
-        }
-      } finally {
-        setLoading(false);
-      }
+      const mapped = CATEGORIES.filter(c => c.product_count > 0);
+      setCategories(mapped);
+      setLoading(false);
     };
     
     fetchCategories();

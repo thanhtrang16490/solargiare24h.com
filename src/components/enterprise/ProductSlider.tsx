@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ENTERPRISE_PRODUCTS } from '../../data/client-data';
 
 interface Product {
   id: number;
@@ -28,25 +29,8 @@ const ProductSlider: React.FC = () => {
 
   // Fetch products from API
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/enterprise-products');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-
-        const data = await response.json();
-        setProducts(data.products || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    setProducts(ENTERPRISE_PRODUCTS as any);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
