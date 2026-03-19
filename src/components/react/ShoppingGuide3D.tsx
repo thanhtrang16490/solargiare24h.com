@@ -47,8 +47,8 @@ function FloatingParticles() {
   );
 }
 
-// Simple 3D office chair
-function OfficeChair() {
+// Simple 3D solar panel
+function SolarPanel() {
   const groupRef = useRef<THREE.Group>(null);
   
   useFrame((state) => {
@@ -59,26 +59,31 @@ function OfficeChair() {
 
   return (
     <Float speed={1.5} rotationIntensity={0.5}>
-      <group ref={groupRef} position={[2, 0, 0]}>
-        {/* Chair seat */}
+      <group ref={groupRef} position={[2, 0, 0]} rotation={[0.3, 0, 0]}>
+        {/* Panel frame */}
         <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[1.2, 0.2, 1]} />
-          <meshLambertMaterial color="#4a5568" />
+          <boxGeometry args={[2.2, 1.4, 0.08]} />
+          <meshLambertMaterial color="#1e3a5f" />
         </mesh>
-        
-        {/* Chair back */}
-        <mesh position={[0, 0.8, -0.4]}>
-          <boxGeometry args={[1.2, 1.2, 0.2]} />
-          <meshLambertMaterial color="#4a5568" />
+        {/* Solar cells */}
+        {[-0.7, 0, 0.7].map((x, xi) =>
+          [-0.4, 0.4].map((y, yi) => (
+            <mesh key={`${xi}-${yi}`} position={[x, y, 0.05]}>
+              <boxGeometry args={[0.6, 0.55, 0.04]} />
+              <meshLambertMaterial color="#1a56db" />
+            </mesh>
+          ))
+        )}
+        {/* Mount pole */}
+        <mesh position={[0, -1.1, 0]}>
+          <cylinderGeometry args={[0.05, 0.05, 1]} />
+          <meshLambertMaterial color="#6b7280" />
         </mesh>
-        
-        {/* Chair legs */}
-        {[[-0.4, -0.5, 0.4], [0.4, -0.5, 0.4], [-0.4, -0.5, -0.4], [0.4, -0.5, -0.4]].map((pos, i) => (
-          <mesh key={i} position={pos as [number, number, number]}>
-            <cylinderGeometry args={[0.05, 0.05, 1]} />
-            <meshLambertMaterial color="#2d3748" />
-          </mesh>
-        ))}
+        {/* Base */}
+        <mesh position={[0, -1.65, 0]}>
+          <boxGeometry args={[0.7, 0.1, 0.35]} />
+          <meshLambertMaterial color="#4b5563" />
+        </mesh>
       </group>
     </Float>
   );
@@ -112,7 +117,7 @@ function Scene() {
       <directionalLight position={[-10, -10, -5]} intensity={0.5} />
       
       <FloatingParticles />
-      <OfficeChair />
+      <SolarPanel />
       <ShoppingBox />
       
       <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />

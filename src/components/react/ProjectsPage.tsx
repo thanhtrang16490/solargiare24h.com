@@ -46,12 +46,12 @@ const ProjectsPage: React.FC = () => {
                 <div className="stats-label">Dự án hoàn thành</div>
               </div>
               <div className="stats-card">
-                <div className="stats-number">500+</div>
-                <div className="stats-label">Khách hàng hài lòng</div>
+                <div className="stats-number">5 MWp+</div>
+                <div className="stats-label">Tổng công suất lắp đặt</div>
               </div>
               <div className="stats-card">
-                <div className="stats-number">50,000+</div>
-                <div className="stats-label">m² đã thi công</div>
+                <div className="stats-number">300+</div>
+                <div className="stats-label">Khách hàng hài lòng</div>
               </div>
             </div>
           </div>
@@ -147,8 +147,8 @@ const ProjectsPage: React.FC = () => {
             Liên hệ với chúng tôi để được tư vấn miễn phí và nhận báo giá chi tiết cho dự án của bạn
           </p>
           <div className="cta-buttons">
-            <a href="tel:0979983355" className="cta-button-primary">
-              📞 Gọi ngay: 0979 983 355
+            <a href="tel:0962916488" className="cta-button-primary">
+              📞 Gọi ngay: 0962 916 488
             </a>
             <a href="/lien-he" className="cta-button-secondary">
               💬 Tư vấn miễn phí
@@ -204,8 +204,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, featured = false }) 
             <span>{project.client}</span>
           </div>
           <div className="flex items-center text-sm text-gray-500">
-            <span className="font-medium mr-2">Diện tích:</span>
-            <span>{project.area}</span>
+            <span className="font-medium mr-2">Công suất:</span>
+            <span>{(project as any).capacity || project.area}</span>
           </div>
           <div className="flex items-center text-sm text-gray-500">
             <span className="font-medium mr-2">Địa điểm:</span>

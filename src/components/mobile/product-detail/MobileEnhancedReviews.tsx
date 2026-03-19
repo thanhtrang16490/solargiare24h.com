@@ -45,7 +45,7 @@ const MobileEnhancedReviews: React.FC<MobileEnhancedReviewsProps> = ({ disableLo
       id: '2',
       user: { name: 'Anh Trương', avatar: '👨‍🔧' },
       rating: 4,
-      content: 'Ghế ngồi êm, tựa lưng tốt nhưng phần kê tay hơi thấp so với mình. Mong shop có thêm phụ kiện nâng kê tay.',
+      content: 'Inverter hybrid hoạt động ổn định, chuyển đổi nguồn điện mượt mà. Lắp đặt xong tiết kiệm được khoảng 70% tiền điện mỗi tháng. Rất hài lòng!',
       date: '11/5/2025',
       likes: 23,
       verified: true,

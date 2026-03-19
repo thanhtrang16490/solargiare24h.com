@@ -7,7 +7,7 @@ interface FormData {
   contactName: string;
   email: string;
   phone: string;
-  employeeCount: string;
+  projectScale: string;
   notes: string;
 }
 
@@ -16,7 +16,7 @@ interface FormErrors {
   contactName?: string;
   email?: string;
   phone?: string;
-  employeeCount?: string;
+  projectScale?: string;
 }
 
 const QuoteForm: React.FC = () => {
@@ -25,7 +25,7 @@ const QuoteForm: React.FC = () => {
     contactName: '',
     email: '',
     phone: '',
-    employeeCount: '',
+    projectScale: '',
     notes: ''
   });
 
@@ -56,8 +56,8 @@ const QuoteForm: React.FC = () => {
       newErrors.phone = 'Số điện thoại không hợp lệ';
     }
 
-    if (!formData.employeeCount.trim()) {
-      newErrors.employeeCount = 'Số lượng nhân sự là bắt buộc';
+    if (!formData.projectScale.trim()) {
+      newErrors.projectScale = 'Quy mô dự án là bắt buộc';
     }
 
     setErrors(newErrors);
@@ -84,7 +84,7 @@ const QuoteForm: React.FC = () => {
         contactName: '',
         email: '',
         phone: '',
-        employeeCount: '',
+        projectScale: '',
         notes: ''
       });
       
@@ -120,13 +120,13 @@ const QuoteForm: React.FC = () => {
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Nhận báo giá & 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">
-                thiết kế miễn phí
+              Nhận báo giá &
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-500">
+                khảo sát miễn phí
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Để lại thông tin để chúng tôi tư vấn giải pháp tốt nhất cho doanh nghiệp của bạn
+              Để lại thông tin để đội kỹ sư SOLAR24H tư vấn giải pháp điện mặt trời tối ưu cho doanh nghiệp của bạn
             </p>
           </div>
 
@@ -242,31 +242,31 @@ const QuoteForm: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Employee Count */}
+                {/* Project Scale */}
                 <div>
-                  <label htmlFor="employeeCount" className="block text-sm font-medium text-gray-700 mb-2">
-                    Số lượng nhân sự cần trang bị *
+                  <label htmlFor="projectScale" className="block text-sm font-medium text-gray-700 mb-2">
+                    Quy mô dự án *
                   </label>
                   <select
-                    id="employeeCount"
-                    name="employeeCount"
-                    value={formData.employeeCount}
+                    id="projectScale"
+                    name="projectScale"
+                    value={formData.projectScale}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      errors.employeeCount ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent ${
+                      errors.projectScale ? 'border-red-300' : 'border-gray-300'
                     }`}
                   >
-                    <option value="">Chọn số lượng nhân sự</option>
-                    <option value="1-10">1-10 nhân viên</option>
-                    <option value="11-50">11-50 nhân viên</option>
-                    <option value="51-100">51-100 nhân viên</option>
-                    <option value="101-200">101-200 nhân viên</option>
-                    <option value="200+">Trên 200 nhân viên</option>
+                    <option value="">Chọn quy mô công suất</option>
+                    <option value="10-50kWp">10 – 50 kWp (hộ kinh doanh, văn phòng nhỏ)</option>
+                    <option value="50-200kWp">50 – 200 kWp (nhà xưởng vừa)</option>
+                    <option value="200-500kWp">200 – 500 kWp (nhà máy, tòa nhà)</option>
+                    <option value="500kWp-1MWp">500 kWp – 1 MWp (khu công nghiệp)</option>
+                    <option value="1MWp+">Trên 1 MWp (dự án lớn)</option>
                   </select>
-                  {errors.employeeCount && (
+                  {errors.projectScale && (
                     <p className="mt-1 text-sm text-red-600 flex items-center">
                       <ExclamationCircleIcon className="w-4 h-4 mr-1" />
-                      {errors.employeeCount}
+                      {errors.projectScale}
                     </p>
                   )}
                 </div>
@@ -283,7 +283,7 @@ const QuoteForm: React.FC = () => {
                     onChange={handleChange}
                     rows={4}
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Mô tả chi tiết về nhu cầu của doanh nghiệp (hệ thống điện mặt trời, ngân sách, thời gian triển khai...)"
+                    placeholder="Mô tả chi tiết về dự án (loại mái, diện tích, hóa đơn điện hiện tại, thời gian triển khai...)"
                   />
                 </div>
 
@@ -291,7 +291,7 @@ const QuoteForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
@@ -302,7 +302,7 @@ const QuoteForm: React.FC = () => {
                       Đang gửi...
                     </span>
                   ) : (
-                    'Nhận báo giá & demo miễn phí'
+                    'Nhận báo giá & khảo sát miễn phí'
                   )}
                 </button>
               </form>
@@ -312,85 +312,73 @@ const QuoteForm: React.FC = () => {
             <div className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  Tại sao chọn chúng tôi?
+                  Tại sao chọn SOLAR24H?
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4 mt-1">
-                      <CheckCircleIcon className="w-5 h-5 text-blue-600" />
+                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                      <CheckCircleIcon className="w-5 h-5 text-yellow-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">Tư vấn miễn phí</h4>
-                      <p className="text-gray-600">Khảo sát không gian, tư vấn thiết kế hoàn toàn miễn phí</p>
+                      <h4 className="font-semibold text-gray-900">Khảo sát & tư vấn miễn phí</h4>
+                      <p className="text-gray-600">Kỹ sư đến tận nơi khảo sát mái, tính toán công suất và mô phỏng sản lượng</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-4 mt-1">
                       <CheckCircleIcon className="w-5 h-5 text-green-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">Thiết kế 3D</h4>
-                      <p className="text-gray-600">Mô phỏng không gian 3D chân thực trước khi triển khai</p>
+                      <h4 className="font-semibold text-gray-900">Thiết bị chính hãng</h4>
+                      <p className="text-gray-600">Tấm pin mono PERC, inverter Growatt/Solis/Deye, ắc quy lithium LiFePO4</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-start">
-                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-4 mt-1">
-                      <CheckCircleIcon className="w-5 h-5 text-purple-600" />
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                      <CheckCircleIcon className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900">Bảo hành dài hạn</h4>
-                      <p className="text-gray-600">Chế độ bảo hành lên đến 5 năm, hỗ trợ 24/7</p>
+                      <p className="text-gray-600">Tấm pin 25 năm, inverter 5–10 năm, thi công 2 năm. Bảo trì O&M định kỳ</p>
                     </div>
                   </div>
-                  
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-4 mt-1">
                       <CheckCircleIcon className="w-5 h-5 text-orange-600" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">Giao hàng nhanh</h4>
-                      <p className="text-gray-600">Giao hàng và lắp đặt trong 7-14 ngày</p>
+                      <h4 className="font-semibold text-gray-900">Hoàn vốn 4–6 năm</h4>
+                      <p className="text-gray-600">ROI hấp dẫn, hỗ trợ hồ sơ vay vốn ngân hàng ưu đãi cho dự án xanh</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Contact Info */}
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Liên hệ trực tiếp
                 </h3>
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                     </svg>
-                    <a href={`tel:${COMPANY_INFO.hotline}`} className="text-gray-700 hover:text-blue-600">
+                    <a href={`tel:${COMPANY_INFO.hotline}`} className="text-gray-700 hover:text-yellow-600">
                       Hotline: {COMPANY_INFO.hotline}
                     </a>
                   </div>
-                  
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
-                    <a href={`mailto:${COMPANY_INFO.email}`} className="text-gray-700 hover:text-blue-600">
+                    <a href={`mailto:${COMPANY_INFO.email}`} className="text-gray-700 hover:text-yellow-600">
                       Email: {COMPANY_INFO.email}
                     </a>
                   </div>
                   
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <span className="text-gray-700">{COMPANY_INFO.address}</span>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span className="text-gray-700">Giờ làm việc: {COMPANY_INFO.workingHours}</span>

@@ -114,7 +114,7 @@ export const GET: APIRoute = async () => {
       const category = (product as any).product_cats || { title: 'Thiết bị điện mặt trời', slug: 'thiet-bi-dien-mat-troi' };
 
       // Determine Google product category based on category (more specific mapping)
-      let googleProductCategory = 'Furniture > Office Furniture';
+      let googleProductCategory = 'Hardware > Electrical Equipment';
       const categorySlug = category?.slug || '';
       const productName = product.name.toLowerCase();
 
@@ -194,7 +194,7 @@ export const GET: APIRoute = async () => {
       </g:shipping>
       <g:shipping_weight>${product.weight || 5} kg</g:shipping_weight>
       <g:custom_label_0><![CDATA[${brand?.title || 'SOLAR24H'}]]></g:custom_label_0>
-      <g:custom_label_1><![CDATA[${category?.title || 'Office'}]]></g:custom_label_1>
+      <g:custom_label_1><![CDATA[${category?.title || 'Solar'}]]></g:custom_label_1>
       <g:custom_label_2>Vietnam</g:custom_label_2>
       <g:custom_label_3>solar24h.com</g:custom_label_3>
       <g:custom_label_4>${availability === 'in_stock' ? 'In Stock' : 'Limited'}</g:custom_label_4>

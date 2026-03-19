@@ -8,6 +8,7 @@ export interface Project {
   location: string;
   completedDate: string;
   area: string;
+  capacity: string; // công suất hệ thống
   budget: string;
   images: {
     thumbnail: string;
@@ -21,207 +22,217 @@ export interface Project {
 
 export const projectCategories = [
   { id: 'all', name: 'Tất cả', slug: 'all' },
-  { id: 'office', name: 'Văn phòng', slug: 'van-phong' },
-  { id: 'coworking', name: 'Coworking Space', slug: 'coworking-space' },
-  { id: 'corporate', name: 'Doanh nghiệp', slug: 'doanh-nghiep' },
-  { id: 'startup', name: 'Startup', slug: 'startup' },
-  { id: 'government', name: 'Cơ quan nhà nước', slug: 'co-quan-nha-nuoc' },
-  { id: 'education', name: 'Giáo dục', slug: 'giao-duc' }
+  { id: 'residential', name: 'Hộ gia đình', slug: 'ho-gia-dinh' },
+  { id: 'industrial', name: 'Công nghiệp', slug: 'cong-nghiep' },
+  { id: 'commercial', name: 'Thương mại', slug: 'thuong-mai' },
+  { id: 'agriculture', name: 'Nông nghiệp', slug: 'nong-nghiep' },
+  { id: 'offgrid', name: 'Độc lập lưới', slug: 'doc-lap-luoi' },
+  { id: 'government', name: 'Công trình công cộng', slug: 'cong-trinh-cong-cong' },
 ];
 
 export const projects: Project[] = [
   {
-    id: 'techcombank-tower',
-    title: 'Techcombank Tower - Hệ thống điện mặt trời hiện đại',
-    description: 'Dự án thiết kế và thi công hệ thống điện mặt trời cho Techcombank Tower với diện tích 2,500m². Không gian được thiết kế theo phong cách hiện đại, tối ưu hóa năng suất làm việc với các giải pháp thiết bị solar thông minh và solar.',
-    shortDescription: 'Lắp đặt điện mặt trời hiện đại cho Techcombank với diện tích 2,500m²',
-    category: 'corporate',
-    client: 'Techcombank',
-    location: 'Hà Nội',
-    completedDate: '2024-03-15',
-    area: '2,500m²',
-    budget: '15-20 tỷ VNĐ',
+    id: 'nha-may-may-mac-binh-duong',
+    title: 'Nhà máy may mặc Bình Dương – Hệ thống điện mặt trời áp mái 500kWp',
+    description: 'Lắp đặt hệ thống điện mặt trời hòa lưới công suất 500kWp trên mái nhà xưởng nhà máy may mặc tại Bình Dương. Sử dụng 1.100 tấm pin Jinko Solar 455W kết hợp inverter Growatt 3 pha. Hệ thống sản xuất trung bình 1.800 kWh/ngày, tiết kiệm hơn 500 triệu đồng/năm tiền điện.',
+    shortDescription: 'Hệ thống hòa lưới 500kWp cho nhà máy may mặc, tiết kiệm 500 triệu/năm',
+    category: 'industrial',
+    client: 'Công ty TNHH May mặc Thiên Phú',
+    location: 'Bình Dương',
+    completedDate: '2024-03-10',
+    area: '3.200m² mái xưởng',
+    capacity: '500 kWp',
+    budget: '4,5 – 5 tỷ VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/techcombank/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/techcombank/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/techcombank/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/techcombank/gallery-3.jpg',
-        'https://cdn.solar24h.com/projects/techcombank/gallery-4.jpg',
-        'https://cdn.solar24h.com/projects/techcombank/gallery-5.jpg'
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80',
+        'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80',
+        'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80',
       ]
     },
-    tags: ['Văn phòng', 'Hiện đại', 'Công thái học', 'Thông minh'],
+    tags: ['Hòa lưới', 'Công nghiệp', 'Jinko Solar', 'Growatt', '500kWp'],
     featured: true,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar', 'Bảo trì']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Đấu nối hòa lưới', 'Bảo trì định kỳ']
   },
   {
-    id: 'fpt-software-campus',
-    title: 'FPT Software Campus - Không gian sáng tạo',
-    description: 'Dự án tạo ra hệ thống điện mặt trời sáng tạo và linh hoạt cho FPT Software với diện tích 3,200m². Thiết kế tập trung vào việc khuyến khích sự hợp tác và đổi mới sáng tạo thông qua các khu vực làm việc đa dạng.',
-    shortDescription: 'Hệ thống điện mặt trời sáng tạo cho FPT Software 3,200m²',
-    category: 'office',
-    client: 'FPT Software',
-    location: 'TP. Hồ Chí Minh',
-    completedDate: '2024-01-20',
-    area: '3,200m²',
-    budget: '20-25 tỷ VNĐ',
+    id: 'resort-phu-quoc-offgrid',
+    title: 'Resort Phú Quốc – Hệ thống điện mặt trời độc lập 120kWp + lưu trữ',
+    description: 'Thiết kế và lắp đặt hệ thống điện mặt trời độc lập (off-grid) 120kWp kết hợp hệ thống lưu trữ 200kWh LiFePO4 cho resort cao cấp tại Phú Quốc. Hệ thống đảm bảo cung cấp điện 24/7 không phụ thuộc lưới điện quốc gia, phù hợp với vị trí đảo xa.',
+    shortDescription: 'Hệ thống off-grid 120kWp + 200kWh lưu trữ cho resort cao cấp Phú Quốc',
+    category: 'offgrid',
+    client: 'Sunset Bay Resort',
+    location: 'Phú Quốc, Kiên Giang',
+    completedDate: '2024-01-25',
+    area: '800m² mái & bãi đỗ xe',
+    capacity: '120 kWp',
+    budget: '3,2 – 3,8 tỷ VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/fpt/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/fpt/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/fpt/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/fpt/gallery-3.jpg',
-        'https://cdn.solar24h.com/projects/fpt/gallery-4.jpg'
+        'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80',
+        'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80',
       ]
     },
-    tags: ['Sáng tạo', 'Linh hoạt', 'Công nghệ', 'Hợp tác'],
+    tags: ['Off-grid', 'Lưu trữ', 'LiFePO4', 'Resort', '120kWp'],
     featured: true,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Hệ thống lưu trữ', 'Giám sát từ xa']
   },
   {
-    id: 'vingroup-headquarters',
-    title: 'Vingroup Headquarters - Đẳng cấp doanh nghiệp',
-    description: 'Dự án thiết kế trụ sở chính của Vingroup với diện tích 4,000m². Không gian thể hiện đẳng cấp và uy tín của tập đoàn thông qua thiết kế sang trọng và hiện đại.',
-    shortDescription: 'Trụ sở chính Vingroup với thiết kế đẳng cấp 4,000m²',
-    category: 'corporate',
-    client: 'Vingroup',
-    location: 'Hà Nội',
-    completedDate: '2023-11-30',
-    area: '4,000m²',
-    budget: '30-35 tỷ VNĐ',
+    id: 'trang-trai-rau-sach-lam-dong',
+    title: 'Trang trại rau sạch Lâm Đồng – Điện mặt trời nông nghiệp 80kWp',
+    description: 'Lắp đặt hệ thống điện mặt trời 80kWp phục vụ hệ thống tưới nhỏ giọt, chiếu sáng nhà kính và kho lạnh bảo quản rau củ tại trang trại nông nghiệp công nghệ cao ở Lâm Đồng. Giảm 90% chi phí điện vận hành, tăng hiệu quả sản xuất.',
+    shortDescription: 'Hệ thống 80kWp phục vụ tưới nhỏ giọt và nhà kính nông nghiệp CNC',
+    category: 'agriculture',
+    client: 'Trang trại Green Farm Đà Lạt',
+    location: 'Lâm Đồng',
+    completedDate: '2023-11-15',
+    area: '600m² mái nhà kính',
+    capacity: '80 kWp',
+    budget: '1,2 – 1,5 tỷ VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/vingroup/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/vingroup/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/vingroup/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/vingroup/gallery-3.jpg'
+        'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80',
       ]
     },
-    tags: ['Sang trọng', 'Đẳng cấp', 'Doanh nghiệp', 'Hiện đại'],
+    tags: ['Nông nghiệp', 'Nhà kính', 'Tưới nhỏ giọt', '80kWp', 'Hòa lưới'],
     featured: true,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar', 'Bảo trì']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Tích hợp hệ thống tưới', 'Bảo trì']
   },
   {
-    id: 'tokyotech-lab-coworking',
-    title: 'TokyoTech Lab - Coworking Space Sáng Tạo',
-    description: 'Không gian coworking hiện đại dành cho các startup và freelancer với diện tích 800m². Thiết kế linh hoạt, có thể thay đổi cấu hình theo nhu cầu sử dụng.',
-    shortDescription: 'Coworking space hiện đại cho startup và freelancer 800m²',
-    category: 'coworking',
-    client: 'TokyoTech Lab',
-    location: 'TP. Hồ Chí Minh',
-    completedDate: '2024-02-10',
-    area: '800m²',
-    budget: '5-7 tỷ VNĐ',
+    id: 'biet-thu-quan-2-hcm',
+    title: 'Biệt thự Quận 2 TP.HCM – Hệ thống hybrid 15kWp + lưu trữ 20kWh',
+    description: 'Lắp đặt hệ thống điện mặt trời hybrid 15kWp kết hợp pin lưu trữ 20kWh cho biệt thự cao cấp tại Quận 2. Hệ thống tự động chuyển đổi giữa năng lượng mặt trời, pin lưu trữ và lưới điện, đảm bảo điện liên tục kể cả khi mất điện.',
+    shortDescription: 'Hệ thống hybrid 15kWp + 20kWh lưu trữ cho biệt thự cao cấp Q.2',
+    category: 'residential',
+    client: 'Gia đình anh Minh Tuấn',
+    location: 'Quận 2, TP. Hồ Chí Minh',
+    completedDate: '2024-02-20',
+    area: '120m² mái ngói',
+    capacity: '15 kWp',
+    budget: '350 – 420 triệu VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/tokyotech/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/tokyotech/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/tokyotech/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/tokyotech/gallery-3.jpg'
+        'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80',
       ]
     },
-    tags: ['Coworking', 'Startup', 'Linh hoạt', 'Sáng tạo'],
+    tags: ['Hybrid', 'Gia đình', 'Lưu trữ', '15kWp', 'Dự phòng điện'],
     featured: false,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Hệ thống lưu trữ', 'Giám sát app']
   },
   {
-    id: 'vietcombank-branch',
-    title: 'Vietcombank Chi nhánh Đống Đa',
-    description: 'Thiết kế và lắp đặt hệ thống solar cho chi nhánh ngân hàng Vietcombank với diện tích 600m². Tập trung vào việc tạo ra không gian chuyên nghiệp và thân thiện với khách hàng.',
-    shortDescription: 'Chi nhánh ngân hàng Vietcombank chuyên nghiệp 600m²',
-    category: 'corporate',
-    client: 'Vietcombank',
-    location: 'Hà Nội',
-    completedDate: '2023-12-15',
-    area: '600m²',
-    budget: '8-10 tỷ VNĐ',
+    id: 'trung-tam-thuong-mai-da-nang',
+    title: 'Trung tâm thương mại Đà Nẵng – Hệ thống hòa lưới 300kWp',
+    description: 'Lắp đặt hệ thống điện mặt trời hòa lưới 300kWp trên mái TTTM tại Đà Nẵng. Sử dụng tấm pin LONGi 550W bifacial và inverter SolarEdge với tính năng tối ưu từng module. Sản lượng điện đạt 1.050 kWh/ngày, giảm 60% hóa đơn điện hàng tháng.',
+    shortDescription: 'Hệ thống hòa lưới 300kWp trên mái TTTM, giảm 60% hóa đơn điện',
+    category: 'commercial',
+    client: 'Công ty CP Đầu tư Thương mại Đà Nẵng',
+    location: 'Đà Nẵng',
+    completedDate: '2023-12-05',
+    area: '2.000m² mái bằng',
+    capacity: '300 kWp',
+    budget: '2,8 – 3,2 tỷ VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/vietcombank/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1548337138-e87d889cc369?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/vietcombank/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/vietcombank/gallery-2.jpg'
+        'https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80',
       ]
     },
-    tags: ['Ngân hàng', 'Chuyên nghiệp', 'Thân thiện', 'An toàn'],
+    tags: ['Thương mại', 'Hòa lưới', 'LONGi', 'SolarEdge', '300kWp'],
     featured: false,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Đấu nối hòa lưới', 'Bảo trì định kỳ']
   },
   {
-    id: 'bkav-office-renovation',
-    title: 'BKAV Office - Cải tạo hệ thống điện mặt trời',
-    description: 'Dự án cải tạo và nâng cấp hệ thống điện mặt trời cho BKAV với diện tích 1,500m². Tối ưu hóa không gian hiện có để tăng hiệu quả làm việc.',
-    shortDescription: 'Lắp đặt hệ thống solar BKAV tối ưu hóa không gian 1,500m²',
-    category: 'office',
-    client: 'BKAV',
-    location: 'Hà Nội',
-    completedDate: '2024-04-05',
-    area: '1,500m²',
-    budget: '10-12 tỷ VNĐ',
-    images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/bkav/thumbnail.jpg',
-      gallery: [
-        'https://cdn.solar24h.com/projects/bkav/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/bkav/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/bkav/gallery-3.jpg'
-      ]
-    },
-    tags: ['Cải tạo', 'Tối ưu', 'Công nghệ', 'Hiệu quả'],
-    featured: false,
-    status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Cải tạo', 'Cung cấp thiết bị solar']
-  },
-  {
-    id: 'ministry-planning-investment',
-    title: 'Bộ Kế hoạch và Đầu tư - Hội trường hiện đại',
-    description: 'Thiết kế và thi công hội trường và khu vực làm việc cho Bộ Kế hoạch và Đầu tư với diện tích 1,200m². Đảm bảo tính trang trọng và hiện đại phù hợp với cơ quan nhà nước.',
-    shortDescription: 'Hội trường Bộ Kế hoạch và Đầu tư trang trọng 1,200m²',
+    id: 'truong-hoc-can-tho',
+    title: 'Trường THPT Cần Thơ – Điện mặt trời công trình công cộng 50kWp',
+    description: 'Lắp đặt hệ thống điện mặt trời 50kWp cho trường THPT tại Cần Thơ theo chương trình điện mặt trời trường học. Hệ thống cung cấp điện cho toàn bộ phòng học, phòng máy tính và hệ thống chiếu sáng, đồng thời là mô hình giáo dục thực tế về năng lượng tái tạo.',
+    shortDescription: 'Hệ thống 50kWp cho trường học, kết hợp giáo dục năng lượng tái tạo',
     category: 'government',
-    client: 'Bộ Kế hoạch và Đầu tư',
-    location: 'Hà Nội',
-    completedDate: '2023-10-20',
-    area: '1,200m²',
-    budget: '12-15 tỷ VNĐ',
+    client: 'Trường THPT Châu Văn Liêm',
+    location: 'Cần Thơ',
+    completedDate: '2024-04-10',
+    area: '400m² mái trường',
+    capacity: '50 kWp',
+    budget: '600 – 700 triệu VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/ministry/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/ministry/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/ministry/gallery-2.jpg'
+        'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80',
       ]
     },
-    tags: ['Cơ quan nhà nước', 'Trang trọng', 'Hội trường', 'Chính thức'],
+    tags: ['Trường học', 'Công cộng', 'Giáo dục', '50kWp', 'Hòa lưới'],
     featured: false,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Đào tạo vận hành', 'Bảo hành']
   },
   {
-    id: 'hanoi-university-library',
-    title: 'Thư viện Đại học Hà Nội - Không gian học tập',
-    description: 'Dự án thiết kế không gian thư viện hiện đại cho Đại học Hà Nội với diện tích 2,000m². Tạo ra môi trường học tập thoải mái và hiệu quả cho sinh viên.',
-    shortDescription: 'Thư viện Đại học Hà Nội hiện đại 2,000m²',
-    category: 'education',
-    client: 'Đại học Hà Nội',
-    location: 'Hà Nội',
-    completedDate: '2024-05-15',
-    area: '2,000m²',
-    budget: '18-22 tỷ VNĐ',
+    id: 'khu-cong-nghiep-long-an',
+    title: 'KCN Long An – Hệ thống điện mặt trời mái xưởng 1MWp',
+    description: 'Dự án lắp đặt hệ thống điện mặt trời quy mô lớn 1MWp trên mái nhà xưởng khu công nghiệp tại Long An. Sử dụng 2.000 tấm pin Jinko Tiger Neo 500W, 10 inverter Growatt 100kW 3 pha. Sản lượng điện đạt 3.600 kWh/ngày, hoàn vốn trong 5-6 năm.',
+    shortDescription: 'Hệ thống 1MWp quy mô lớn tại KCN Long An, hoàn vốn 5-6 năm',
+    category: 'industrial',
+    client: 'Công ty CP Sản xuất Thép Miền Nam',
+    location: 'Long An',
+    completedDate: '2024-05-20',
+    area: '6.500m² mái xưởng',
+    capacity: '1.000 kWp (1 MWp)',
+    budget: '9 – 10 tỷ VNĐ',
     images: {
-      thumbnail: 'https://cdn.solar24h.com/projects/hanoi-uni/thumbnail.jpg',
+      thumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
       gallery: [
-        'https://cdn.solar24h.com/projects/hanoi-uni/gallery-1.jpg',
-        'https://cdn.solar24h.com/projects/hanoi-uni/gallery-2.jpg',
-        'https://cdn.solar24h.com/projects/hanoi-uni/gallery-3.jpg'
+        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80',
+        'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80',
       ]
     },
-    tags: ['Giáo dục', 'Thư viện', 'Học tập', 'Hiện đại'],
+    tags: ['Công nghiệp', '1MWp', 'Jinko Tiger Neo', 'Growatt', 'KCN'],
     featured: false,
     status: 'completed',
-    services: ['Thiết kế thiết bị solar', 'Thi công', 'Cung cấp thiết bị solar']
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Đấu nối hòa lưới', 'Giám sát SCADA', 'Bảo trì định kỳ']
+  },
+  {
+    id: 'nha-dan-ha-noi-10kwp',
+    title: 'Nhà dân Hà Nội – Hệ thống hòa lưới 10kWp mái bằng',
+    description: 'Lắp đặt hệ thống điện mặt trời hòa lưới 10kWp cho nhà phố tại Hà Nội. Sử dụng 20 tấm pin LONGi 500W và inverter Deye 10kW hybrid. Sản lượng điện đạt 35-40 kWh/ngày, tiết kiệm 2-2,5 triệu đồng/tháng, hoàn vốn trong 4-5 năm.',
+    shortDescription: 'Hệ thống hòa lưới 10kWp cho nhà phố Hà Nội, tiết kiệm 2,5 triệu/tháng',
+    category: 'residential',
+    client: 'Gia đình chị Lan Anh',
+    location: 'Hà Nội',
+    completedDate: '2024-06-01',
+    area: '60m² mái bằng',
+    capacity: '10 kWp',
+    budget: '130 – 150 triệu VNĐ',
+    images: {
+      thumbnail: 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=800&q=80',
+      gallery: [
+        'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=1200&q=80',
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80',
+        'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80',
+      ]
+    },
+    tags: ['Hộ gia đình', 'Hòa lưới', 'LONGi', 'Deye', '10kWp'],
+    featured: false,
+    status: 'completed',
+    services: ['Khảo sát & thiết kế', 'Cung cấp thiết bị', 'Thi công lắp đặt', 'Đấu nối hòa lưới', 'Hướng dẫn sử dụng app']
   }
 ];
 
@@ -236,7 +247,7 @@ export const getProjectsByCategory = (categoryId: string) => {
 export const getProjectById = (id: string) => projects.find(project => project.id === id);
 
 export const getRecentProjects = (limit: number = 6) => {
-  return projects
+  return [...projects]
     .sort((a, b) => new Date(b.completedDate).getTime() - new Date(a.completedDate).getTime())
     .slice(0, limit);
 };

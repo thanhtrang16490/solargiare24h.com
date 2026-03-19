@@ -5,47 +5,47 @@ const MobileProblemSolution: React.FC = () => {
 
   const problems = [
     {
-      icon: '😰',
-      title: 'Đau lưng, mỏi vai gáy',
-      description: 'Ngồi lâu với tư thế không đúng gây đau nhức khó chịu'
-    },
-    {
-      icon: '😴',
-      title: 'Mệt mỏi, giảm năng suất',
-      description: 'Ghế không thoải mái làm giảm tập trung và hiệu quả làm việc'
-    },
-    {
-      icon: '🏥',
-      title: 'Vấn đề sức khỏe lâu dài',
-      description: 'Tư thế ngồi sai có thể dẫn đến các bệnh về hệ thống điện'
-    },
-    {
       icon: '💸',
-      title: 'Chi phí y tế tăng cao',
-      description: 'Phải tốn tiền điều trị các vấn đề về xương khớp'
+      title: 'Hóa đơn tiền điện quá cao',
+      description: 'Chi phí điện tăng liên tục, ảnh hưởng lớn đến ngân sách gia đình và doanh nghiệp'
+    },
+    {
+      icon: '⚡',
+      title: 'Mất điện thường xuyên',
+      description: 'Cúp điện đột ngột gây gián đoạn sản xuất, sinh hoạt và thiệt hại kinh tế'
+    },
+    {
+      icon: '🌍',
+      title: 'Ô nhiễm môi trường',
+      description: 'Sử dụng điện từ nhiên liệu hóa thạch góp phần tăng khí thải CO₂'
+    },
+    {
+      icon: '📈',
+      title: 'Giá điện ngày càng tăng',
+      description: 'Không chủ động được nguồn điện, phụ thuộc hoàn toàn vào lưới điện quốc gia'
     }
   ];
 
   const solutions = [
     {
-      icon: '✨',
-      title: 'Thiết kế solar',
-      description: 'Hỗ trợ tư thế ngồi đúng, giảm áp lực lên hệ thống điện'
+      icon: '☀️',
+      title: 'Tiết kiệm 70–90% tiền điện',
+      description: 'Hệ thống điện mặt trời tạo ra điện miễn phí từ ánh nắng, giảm mạnh hóa đơn điện'
     },
     {
-      icon: '🎯',
-      title: 'Tăng năng suất làm việc',
-      description: 'Ngồi thoải mái giúp tập trung tốt hơn, làm việc hiệu quả'
+      icon: '🔋',
+      title: 'Chủ động nguồn điện 24/7',
+      description: 'Inverter hybrid + ắc quy lưu trữ đảm bảo điện liên tục kể cả khi mất điện lưới'
     },
     {
-      icon: '💪',
-      title: 'Bảo vệ sức khỏe lâu dài',
-      description: 'Phòng ngừa các vấn đề về hệ thống điện và xương khớp'
+      icon: '🌱',
+      title: 'Năng lượng sạch, thân thiện môi trường',
+      description: 'Giảm phát thải CO₂, góp phần bảo vệ môi trường cho thế hệ tương lai'
     },
     {
       icon: '💰',
-      title: 'Tiết kiệm chi phí y tế',
-      description: 'Đầu tư một lần, bảo vệ sức khỏe suốt đời'
+      title: 'Hoàn vốn trong 4–6 năm',
+      description: 'Đầu tư một lần, hệ thống vận hành 25+ năm, sinh lời bền vững lâu dài'
     }
   ];
 
@@ -106,13 +106,13 @@ const MobileProblemSolution: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center">
               <div className="text-3xl mb-2">😫</div>
-              <div className="text-sm font-medium text-red-600 mb-1">TRƯỚC KHI DÙNG</div>
-              <div className="text-xs text-gray-600">Đau lưng, mệt mỏi, giảm năng suất</div>
+              <div className="text-sm font-medium text-red-600 mb-1">TRƯỚC KHI LẮP ĐẶT</div>
+              <div className="text-xs text-gray-600">Hóa đơn điện cao, mất điện thường xuyên</div>
             </div>
             <div className="text-center">
               <div className="text-3xl mb-2">😊</div>
-              <div className="text-sm font-medium text-green-600 mb-1">SAU KHI DÙNG</div>
-              <div className="text-xs text-gray-600">Thoải mái, khỏe mạnh, làm việc hiệu quả</div>
+              <div className="text-sm font-medium text-green-600 mb-1">SAU KHI LẮP ĐẶT</div>
+              <div className="text-xs text-gray-600">Tiết kiệm 70–90% điện, chủ động 24/7</div>
             </div>
           </div>
         </div>

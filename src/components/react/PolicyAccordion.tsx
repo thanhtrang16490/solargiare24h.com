@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDownIcon, ShieldCheckIcon, ArrowPathIcon, TruckIcon, CreditCardIcon, ClipboardDocumentCheckIcon, LockClosedIcon } from '@heroicons/react/24/outline';
-import { COMPANY_INFO, BANK_INFO } from '../../constants';
+import { COMPANY_INFO } from '../../constants';
 
 interface PolicySection {
   id: string;
@@ -197,12 +197,10 @@ const PolicyAccordion: React.FC = () => {
                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
              <h4 className="font-semibold text-gray-900 mb-3">Thông tin chuyển khoản</h4>
              <div className="grid grid-cols-2 gap-2 text-sm">
-               <div><strong>Ngân hàng:</strong> {BANK_INFO.bankName}</div>
-               <div><strong>STK:</strong> {BANK_INFO.accountNumber}</div>
-               <div><strong>Chủ TK:</strong> {BANK_INFO.accountName}</div>
-               <div><strong>Chi nhánh:</strong> Việt Nam</div>
+               <div><strong>Liên hệ:</strong> {COMPANY_INFO.hotline}</div>
+               <div><strong>Email:</strong> {COMPANY_INFO.email}</div>
              </div>
-             <p className="text-xs text-amber-600 mt-2">💡 Ghi rõ mã đơn hàng khi chuyển khoản</p>
+             <p className="text-xs text-amber-600 mt-2">💡 Liên hệ hotline để nhận thông tin tài khoản thanh toán</p>
            </div>
         </div>
       )

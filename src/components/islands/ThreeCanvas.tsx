@@ -3,83 +3,69 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Box, Sphere, Cylinder } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Floating chair component
-function FloatingChair() {
-  const chairRef = useRef<THREE.Group>(null);
-  const chairRef2 = useRef<THREE.Group>(null);
+// Floating solar panel component
+function FloatingSolarPanel() {
+  const panelRef = useRef<THREE.Group>(null);
+  const panelRef2 = useRef<THREE.Group>(null);
   
   useFrame((state) => {
-    if (chairRef.current) {
-      chairRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-      chairRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
+    if (panelRef.current) {
+      panelRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+      panelRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
     }
-    if (chairRef2.current) {
-      chairRef2.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-      chairRef2.current.position.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.15;
+    if (panelRef2.current) {
+      panelRef2.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+      panelRef2.current.position.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.15;
     }
   });
 
   return (
     <>
-      {/* Main Chair */}
-      <group ref={chairRef} position={[2, 0, 0]}>
-        {/* Chair base */}
-        <Cylinder args={[0.8, 0.8, 0.2, 8]} position={[0, -1.5, 0]}>
-          <meshStandardMaterial color="#2563eb" />
+      {/* Main Solar Panel */}
+      <group ref={panelRef} position={[2, 0, 0]} rotation={[0.3, 0, 0]}>
+        {/* Panel frame */}
+        <Box args={[2.4, 1.6, 0.08]} position={[0, 0, 0]}>
+          <meshStandardMaterial color="#1e3a5f" />
+        </Box>
+        {/* Panel cells grid */}
+        {[-0.8, 0, 0.8].map((x, xi) =>
+          [-0.5, 0.5].map((y, yi) => (
+            <Box key={`${xi}-${yi}`} args={[0.7, 0.65, 0.05]} position={[x, y, 0.05]}>
+              <meshStandardMaterial color="#1a56db" metalness={0.6} roughness={0.2} />
+            </Box>
+          ))
+        )}
+        {/* Mount pole */}
+        <Cylinder args={[0.06, 0.06, 1.2, 8]} position={[0, -1.2, 0]}>
+          <meshStandardMaterial color="#6b7280" />
         </Cylinder>
-        
-        {/* Chair stem */}
-        <Cylinder args={[0.15, 0.15, 1.2, 8]} position={[0, -0.8, 0]}>
-          <meshStandardMaterial color="#1f2937" />
-        </Cylinder>
-        
-        {/* Chair seat */}
-        <Box args={[1.2, 0.2, 1.2]} position={[0, 0, 0]}>
-          <meshStandardMaterial color="#3b82f6" />
-        </Box>
-        
-        {/* Chair back */}
-        <Box args={[1.2, 1.5, 0.2]} position={[0, 0.8, -0.5]}>
-          <meshStandardMaterial color="#1e40af" />
-        </Box>
-        
-        {/* Armrests */}
-        <Box args={[0.2, 0.8, 0.8]} position={[-0.6, 0.4, 0]}>
-          <meshStandardMaterial color="#1e40af" />
-        </Box>
-        <Box args={[0.2, 0.8, 0.8]} position={[0.6, 0.4, 0]}>
-          <meshStandardMaterial color="#1e40af" />
+        {/* Base */}
+        <Box args={[0.8, 0.1, 0.4]} position={[0, -1.85, 0]}>
+          <meshStandardMaterial color="#4b5563" />
         </Box>
       </group>
 
-      {/* Secondary Chair */}
-      <group ref={chairRef2} position={[-2.5, 0, 1]} scale={0.8}>
-        {/* Chair base */}
-        <Cylinder args={[0.8, 0.8, 0.2, 8]} position={[0, -1.5, 0]}>
-          <meshStandardMaterial color="#10b981" />
+      {/* Secondary Solar Panel */}
+      <group ref={panelRef2} position={[-2.5, 0, 1]} scale={0.8} rotation={[0.3, 0, 0]}>
+        {/* Panel frame */}
+        <Box args={[2.4, 1.6, 0.08]} position={[0, 0, 0]}>
+          <meshStandardMaterial color="#064e3b" />
+        </Box>
+        {/* Panel cells */}
+        {[-0.8, 0, 0.8].map((x, xi) =>
+          [-0.5, 0.5].map((y, yi) => (
+            <Box key={`${xi}-${yi}`} args={[0.7, 0.65, 0.05]} position={[x, y, 0.05]}>
+              <meshStandardMaterial color="#10b981" metalness={0.6} roughness={0.2} />
+            </Box>
+          ))
+        )}
+        {/* Mount pole */}
+        <Cylinder args={[0.06, 0.06, 1.2, 8]} position={[0, -1.2, 0]}>
+          <meshStandardMaterial color="#6b7280" />
         </Cylinder>
-        
-        {/* Chair stem */}
-        <Cylinder args={[0.15, 0.15, 1.2, 8]} position={[0, -0.8, 0]}>
-          <meshStandardMaterial color="#1f2937" />
-        </Cylinder>
-        
-        {/* Chair seat */}
-        <Box args={[1.2, 0.2, 1.2]} position={[0, 0, 0]}>
-          <meshStandardMaterial color="#34d399" />
-        </Box>
-        
-        {/* Chair back */}
-        <Box args={[1.2, 1.5, 0.2]} position={[0, 0.8, -0.5]}>
-          <meshStandardMaterial color="#059669" />
-        </Box>
-        
-        {/* Armrests */}
-        <Box args={[0.2, 0.8, 0.8]} position={[-0.6, 0.4, 0]}>
-          <meshStandardMaterial color="#059669" />
-        </Box>
-        <Box args={[0.2, 0.8, 0.8]} position={[0.6, 0.4, 0]}>
-          <meshStandardMaterial color="#059669" />
+        {/* Base */}
+        <Box args={[0.8, 0.1, 0.4]} position={[0, -1.85, 0]}>
+          <meshStandardMaterial color="#4b5563" />
         </Box>
       </group>
     </>
@@ -134,7 +120,7 @@ function Scene() {
       <pointLight position={[-5, 5, 5]} intensity={0.5} />
 
       {/* Main content */}
-      <FloatingChair />
+      <FloatingSolarPanel />
       <FloatingParticles />
       
       {/* Subtle orbit controls */}
