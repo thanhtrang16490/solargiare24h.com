@@ -1,0 +1,116 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { supabase } from "../../lib/supabase";
+import BrandPageWrapper from "../../components/react/BrandPageWrapper";
+
+export async function getStaticPaths() {
+  // Fetch all brands to generate static paths
+  let brands: Array<{
+    id: string;
+    slug: string;
+    title: string;
+    image_url?: string;
+    description?: string;
+  }> = [];
+
+  try {
+    const { data, error } = await supabase
+      .from("brands")
+      .select("id, slug, title, image_url, description")
+      .order("title", { ascending: true });
+
+    if (!error && data) {
+      brands = data;
+    }
+  } catch (error) {
+    console.error("Error fetching brands for static paths:", error);
+  }
+
+  return brands.map((brand) => ({
+    params: { slug: brand.slug },
+    props: { brand },
+  }));
+}
+
+const { slug } = Astro.params;
+const { brand } = Astro.props;
+
+// Pre-fetch products data at build time for better performance
+let initialProducts: any[] = [];
+let categories: Array<{ id: string; title: string; slug: string }> = [];
+
+try {
+  // Fetch products for this brand
+  const { data: productsData, error: productsError } = await supabase
+    .from('products')
+    .select(`
+      *,
+      brands(title, slug),
+      product_cats(title, slug)
+    `)
+    .eq('brand_id', brand.id)
+    .order('name', { ascending: true });
+
+  if (!productsError && productsData) {
+    initialProducts = productsData;
+  }
+
+  // Fetch categories for filter - only if we have products
+  if (productsData && productsData.length > 0) {
+    const categoryIds = [...new Set(productsData.map(p => p.pd_cat_id).filter(Boolean))];
+    
+    if (categoryIds.length > 0) {
+      const { data: categoriesData, error: categoriesError } = await supabase
+        .from('product_cats')
+        .select('id, title, slug')
+        .in('id', categoryIds)
+        .order('title', { ascending: true });
+
+      if (!categoriesError && categoriesData) {
+        categories = categoriesData;
+      }
+    }
+  }
+} catch (error) {
+  console.error("Error pre-fetching brand data:", error);
+}
+
+const brandInfo = {
+  title: brand?.title || slug || "Thương hiệu",
+  description: brand?.description,
+  image_url: brand?.image_url,
+};
+
+const title = `${brandInfo.title} | G3 - Solar`;
+const description =
+  brandInfo.description ||
+  `Khám phá các sản phẩm của thương hiệu ${brandInfo.title} tại G3.vn. Thiết bị năng lượng mặt trời, bảo hành 12 tháng, giao hàng toàn quốc.`;
+---
+
+<Layout
+  title={title}
+  description={description}
+  image={brandInfo.image_url
+    ? `https://solar24h.com${brandInfo.image_url.replace(/^\/solar24h\//, "/solar24h-otm/").replace(/\.(jpg|jpeg|png|webp)$/i, ".avif")}`
+    : "https://solar24h.com/images/og-default.jpg"}
+  imageAlt={`${brandInfo.title} - solar24h.com`}
+  type="website"
+  keywords={[
+    brandInfo.title,
+    "solar24h.com",
+    "thiết bị điện mặt trời",
+    "tấm pin mặt trời",
+    "hệ thống điện mặt trời",
+    "chất lượng cao",
+  ]}
+  canonical={`https://solar24h.com/brands/${brand?.slug || slug}`}
+>
+  <BrandPageWrapper
+    brandSlug={slug}
+    brandData={brand}
+    initialProducts={initialProducts}
+    availableCategories={categories}
+    client:idle
+  />
+</Layout>
+

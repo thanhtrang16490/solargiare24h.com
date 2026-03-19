@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HeroCarouselIsland from '../components/HeroCarouselIsland.astro';
+import CategorySectionIsland from '../components/CategorySectionIsland.astro';
+import NewProductsIsland from '../components/NewProductsIsland.astro';
+import ComboProductIsland from '../components/ComboProductIsland.astro';
+import SupportSection from '../components/SupportSection.astro';
+import HomeAdModal from '../components/HomeAdModal.astro';
+---
+
+<Layout 
+  title="SOLAR24H - Thiết Bị Điện Mặt Trời Chính Hãng"
+  description="Cung cấp tấm pin mặt trời, inverter hòa lưới, inverter hybrid, pin lưu trữ LiFePO4 và phụ kiện hệ thống điện mặt trời. Bảo hành chính hãng, giao hàng toàn quốc, tư vấn miễn phí."
+  image="https://solargiare24h.com/images/og-default.jpg"
+  imageAlt="SOLAR24H - Thiết bị điện mặt trời chính hãng"
+  type="website"
+  keywords={['SOLAR24H', 'tấm pin mặt trời', 'inverter hòa lưới', 'inverter hybrid', 'pin lưu trữ', 'LiFePO4', 'Growatt', 'Deye', 'Jinko Solar', 'LONGi', 'điện mặt trời', 'năng lượng mặt trời']}
+  canonical="https://solargiare24h.com"
+  showMobileHomeComponents={true}
+>
+  <!-- Desktop Content -->
+  <div class="hidden md:block">
+    <HeroCarouselIsland />
+    <!-- <CategorySectionIsland /> -->
+    <NewProductsIsland />
+    <ComboProductIsland />
+    <SupportSection />
+    <!-- <HomeAdModal /> -->
+  </div>
+
+  <!-- Mobile Content -->
+  <div class="md:hidden">
+    <!-- Mobile content will be handled by the mobile components in Layout -->
+  </div>
+</Layout>

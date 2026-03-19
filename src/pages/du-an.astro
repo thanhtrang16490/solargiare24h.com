@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectsPage from '../components/react/ProjectsPage.tsx';
+
+const title = 'Dự án - solar24h.com | Những dự án hệ thống điện mặt trời tiêu biểu';
+const description = 'Khám phá những dự án hệ thống điện mặt trời tiêu biểu của solar24h.com. Từ các tập đoàn lớn đến startup, chúng tôi đã tạo ra những hệ thống điện mặt trời hiện đại và hiệu quả.';
+const keywords = ['dự án hệ thống điện mặt trời', 'lắp đặt điện mặt trời', 'lắp đặt hệ thống solar', 'hệ thống điện mặt trời', 'SOLAR24H', 'dự án tiêu biểu'];
+---
+
+<Layout 
+  title={title}
+  description={description}
+  keywords={keywords}
+  type="website"
+  canonical="https://solar24h.com/du-an"
+>
+  <ProjectsPage client:load />
+</Layout>

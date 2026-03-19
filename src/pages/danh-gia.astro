@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MobileReviewsPage from '../components/mobile/MobileReviewsPage.tsx';
+
+const title = 'Đánh giá khách hàng - solar24h.com | Reviews sản phẩm hệ thống điện mặt trời';
+const description = 'Xem đánh giá thật từ khách hàng về các sản phẩm hệ thống điện mặt trời của solar24h.com. Thiết bị điện mặt trời, tấm pin mặt trời, tủ tài liệu và nhiều sản phẩm khác.';
+const keywords = ['đánh giá khách hàng', 'review sản phẩm', 'thiết bị điện mặt trời', 'tấm pin mặt trời', 'hệ thống điện mặt trời', 'SOLAR24H', 'feedback'];
+---
+
+<Layout 
+  title={title}
+  description={description}
+  keywords={keywords}
+  type="website"
+  canonical="https://solar24h.com/danh-gia"
+>
+  <MobileReviewsPage client:load />
+</Layout>

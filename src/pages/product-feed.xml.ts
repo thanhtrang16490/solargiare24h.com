@@ -1,0 +1,264 @@
+import type { APIRoute } from 'astro';
+import { MOCK_PRODUCTS, MOCK_BRANDS, MOCK_CATEGORIES } from '../data/mock-products';
+import { COMPANY_INFO } from '../constants';
+
+// Google Merchant Center Product Feed
+export const GET: APIRoute = async () => {
+  try {
+    const rawProducts = MOCK_PRODUCTS.map(p => {
+      const brand = MOCK_BRANDS.find(b => b.id === p.brand_id);
+      const category = MOCK_CATEGORIES.find(c => c.id === p.category_id);
+      return { ...p, brands: brand, product_cats: category };
+    });
+
+    const products = rawProducts.filter(p => p.name && p.slug && p.id && p.price >= 1000);
+
+    // Generate XML feed
+    const baseUrl = COMPANY_INFO.website;
+    const now = new Date().toISOString();
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" 
+     xmlns:g="http://base.google.com/ns/1.0"
+     xmlns:c="http://base.google.com/cns/1.0">
+  <channel>
+    <title>solar24h.com Product Feed</title>
+    <link>${baseUrl}</link>
+    <description>Thiết bị điện mặt trời, inverter hybrid và phụ kiện hệ thống điện mặt trời chất lượng cao</description>
+    <lastBuildDate>${now}</lastBuildDate>
+    <generator>solar24h.com Product Feed Generator</generator>
+    <language>vi</language>
+    <copyright>Copyright ${new Date().getFullYear()} ${COMPANY_INFO.name}</copyright>
+    
+    ${(products || []).map(product => {
+      // Skip products without essential data
+      if (!product.name || !product.slug || !product.id) {
+        console.warn(`Skipping product ${product.id || 'unknown'}: missing essential data`);
+        return '';
+      }
+
+      // Skip products that are explicitly inactive
+      if (product.status === 'inactive' || product.status === 'draft') {
+        return '';
+      }
+
+      // Ensure price is valid (set minimum price if needed)
+      const productPrice = Math.max(product.price || 0, 1000); // Minimum 1000 VND
+      if (productPrice <= 0) {
+        console.warn(`Skipping product ${product.id}: invalid price`);
+        return '';
+      }
+
+      // Get optimized image URL (JPEG for better Google compatibility)
+      let imageUrl = `${baseUrl}/images/no-image.jpg`; // Default fallback
+
+      if (product.image_url) {
+        if (product.image_url.startsWith('http')) {
+          // External URL - use as is but ensure HTTPS
+          imageUrl = product.image_url.replace('http://', 'https://');
+        } else if (product.image_url.includes('solar24h-otm')) {
+          // Already optimized path
+          imageUrl = `${baseUrl}${product.image_url.startsWith('/') ? '' : '/'}${product.image_url.replace('.avif', '.jpg')}`;
+        } else {
+          // Convert to optimized path
+          const filename = product.image_url.split('/').pop()?.replace(/\.(jpg|jpeg|png|webp|avif)$/i, '.jpg') || 'image.jpg';
+          imageUrl = `${baseUrl}/solar24h-otm/products/${product.slug}/${filename}`;
+        }
+      }
+
+      // Get additional gallery images (JPEG for better Google compatibility)
+      const additionalImages: string[] = [];
+      if (product.gallery_array && Array.isArray(product.gallery_array)) {
+        product.gallery_array.forEach((galleryImg: string) => {
+          if (galleryImg && galleryImg !== product.image_url && additionalImages.length < 10) {
+            let optimizedUrl = '';
+
+            if (galleryImg.startsWith('http')) {
+              // External URL - use as is but ensure HTTPS
+              optimizedUrl = galleryImg.replace('http://', 'https://');
+            } else if (galleryImg.includes('solar24h-otm')) {
+              // Already optimized path
+              optimizedUrl = `${baseUrl}${galleryImg.startsWith('/') ? '' : '/'}${galleryImg.replace('.avif', '.jpg')}`;
+            } else {
+              // Convert to optimized path
+              const filename = galleryImg.split('/').pop()?.replace(/\.(jpg|jpeg|png|webp|avif)$/i, '.jpg') || 'image.jpg';
+              optimizedUrl = `${baseUrl}/solar24h-otm/products/${product.slug}/${filename}`;
+            }
+
+            if (optimizedUrl) {
+              additionalImages.push(optimizedUrl);
+            }
+          }
+        });
+      }
+
+      // Clean and format description (Google requires min 10 chars, max 5000)
+      let description = '';
+      if (product.description) {
+        description = product.description
+          .replace(/<[^>]*>/g, '') // Remove HTML tags
+          .replace(/\s+/g, ' ') // Normalize whitespace
+          .trim()
+          .substring(0, 5000);
+      }
+
+      // Fallback description if empty or too short
+      if (!description || description.length < 10) {
+        const brand = (product as any).brands?.title || 'SOLAR24H';
+        const category = (product as any).product_cats?.title || 'thiết bị điện mặt trời';
+        description = `${product.name} - ${brand} chất lượng cao. ${category} chính hãng với bảo hành đầy đủ. Giao hàng nhanh toàn quốc tại solar24h.com.`;
+      }
+
+      // Get brand and category info from joined data or use defaults
+      const brand = (product as any).brands || { title: 'SOLAR24H', slug: 'solar24h' };
+      const category = (product as any).product_cats || { title: 'Thiết bị điện mặt trời', slug: 'thiet-bi-dien-mat-troi' };
+
+      // Determine Google product category based on category (more specific mapping)
+      let googleProductCategory = 'Furniture > Office Furniture';
+      const categorySlug = category?.slug || '';
+      const productName = product.name.toLowerCase();
+
+      if (categorySlug.includes('tam-pin') || productName.includes('tấm pin')) {
+        googleProductCategory = 'Electronics > Solar Energy > Solar Panels';
+      } else if (categorySlug.includes('inverter-hoa-luoi') || productName.includes('hòa lưới')) {
+        googleProductCategory = 'Electronics > Solar Energy > Solar Inverters';
+      } else if (categorySlug.includes('inverter-doc-lap') || productName.includes('hybrid') || productName.includes('off-grid')) {
+        googleProductCategory = 'Electronics > Solar Energy > Solar Inverters';
+      } else if (categorySlug.includes('ac-quy') || productName.includes('pin lithium') || productName.includes('ắc quy')) {
+        googleProductCategory = 'Electronics > Solar Energy > Solar Batteries';
+      } else if (categorySlug.includes('phu-kien') || productName.includes('khung') || productName.includes('cáp') || productName.includes('mc4')) {
+        googleProductCategory = 'Electronics > Solar Energy > Solar Accessories';
+      }
+
+      // Determine availability - Default to in_stock for better Google Merchant performance
+      let availability = 'in_stock';
+
+      // Only set out_of_stock for explicitly marked products
+      if (product.stock_status === 'out_of_stock' || product.status === 'inactive' || product.status === 'draft') {
+        availability = 'out_of_stock';
+      }
+      // Optional: Use limited_availability only if you want to show low stock
+      else if (product.inventory_quantity !== undefined && 
+               product.inventory_quantity !== null && 
+               product.inventory_quantity > 0 && 
+               product.inventory_quantity <= 3) {
+        availability = 'limited_availability';
+      }
+
+      // FORCE ALL PRODUCTS TO BE IN STOCK (uncomment if needed)
+      // availability = 'in_stock';
+
+      // Debug logging for availability issues
+      if (availability !== 'in_stock') {
+        console.log(`Product ${product.id} (${product.name}): availability=${availability}, inventory=${product.inventory_quantity}, stock_status=${product.stock_status}, status=${product.status}`);
+      }
+
+      // Format price according to Google Merchant Center standards
+      // Use the validated price from above
+      const currentPrice = productPrice;
+      const originalPrice = Math.max(0, product.original_price || 0);
+
+      const hasDiscount = originalPrice > 0 && originalPrice > currentPrice;
+      const regularPrice = hasDiscount ? `${originalPrice.toFixed(0)} VND` : `${currentPrice.toFixed(0)} VND`;
+      const salePrice = hasDiscount ? `${currentPrice.toFixed(0)} VND` : null;
+
+      // Generate unique ID for Google (required)
+      const productId = `${product.id}_${product.slug}`.replace(/[^a-zA-Z0-9_-]/g, '');
+
+      // Ensure title is not too long (max 150 chars for Google)
+      const title = product.name.length > 150 ? product.name.substring(0, 147) + '...' : product.name;
+
+      return `<item>
+      <g:id>${productId}</g:id>
+      <g:title><![CDATA[${title}]]></g:title>
+      <g:description><![CDATA[${description}]]></g:description>
+      <g:link>${baseUrl}/san-pham/${product.slug}</g:link>
+      <g:image_link>${imageUrl}</g:image_link>
+      ${additionalImages.map(imgUrl => `<g:additional_image_link>${imgUrl}</g:additional_image_link>`).join('\n      ')}
+      <g:availability>${availability}</g:availability>
+      <g:price>${regularPrice}</g:price>
+      ${salePrice ? `<g:sale_price>${salePrice}</g:sale_price>` : ''}
+      <g:brand><![CDATA[${brand?.title || 'SOLAR24H'}]]></g:brand>
+      <g:condition>new</g:condition>
+      <g:google_product_category>${googleProductCategory}</g:google_product_category>
+      <g:product_type><![CDATA[${category?.title || 'Thiết bị điện mặt trời'}]]></g:product_type>
+      <g:identifier_exists>false</g:identifier_exists>
+      <g:adult>false</g:adult>
+      <g:age_group>adult</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:item_group_id>${product.slug}</g:item_group_id>
+      <g:shipping>
+        <g:country>VN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 VND</g:price>
+      </g:shipping>
+      <g:shipping_weight>${product.weight || 5} kg</g:shipping_weight>
+      <g:custom_label_0><![CDATA[${brand?.title || 'SOLAR24H'}]]></g:custom_label_0>
+      <g:custom_label_1><![CDATA[${category?.title || 'Office'}]]></g:custom_label_1>
+      <g:custom_label_2>Vietnam</g:custom_label_2>
+      <g:custom_label_3>solar24h.com</g:custom_label_3>
+      <g:custom_label_4>${availability === 'in_stock' ? 'In Stock' : 'Limited'}</g:custom_label_4>
+      <g:mpn>${productId}</g:mpn>
+      <g:mobile_link>${baseUrl}/san-pham/${product.slug}</g:mobile_link>
+      ${product.warranty_months ? `<g:warranty>${product.warranty_months} months</g:warranty>` : '<g:warranty>12 months</g:warranty>'}
+      <g:return_policy_label>30 days return</g:return_policy_label>
+      <pubDate>${new Date(product.created_at || Date.now()).toUTCString()}</pubDate>
+    </item>`;
+    }).filter(item => {
+      const isValid = item.trim() !== '';
+      if (!isValid) {
+        console.log('Filtered out empty product item');
+      }
+      return isValid;
+    }).join('\n    ')}
+    
+  </channel>
+</rss>`;
+
+    const productCount = (products || []).length;
+    const validProductCount = xml.split('<item>').length - 1;
+
+    console.log(`Generated feed with ${validProductCount} valid products out of ${productCount} total products`);
+
+    return new Response(xml, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=1800', // Cache for 30 minutes
+        'Last-Modified': now,
+        'X-Robots-Tag': 'noindex',
+        'X-Product-Count': productCount.toString(),
+        'X-Valid-Product-Count': validProductCount.toString(),
+      },
+    });
+
+  } catch (error) {
+    console.error('Error generating product feed:', error);
+
+    // Return valid empty feed on error (don't return 500 status as it may cause Google to stop crawling)
+    const errorXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" 
+     xmlns:g="http://base.google.com/ns/1.0"
+     xmlns:c="http://base.google.com/cns/1.0">
+  <channel>
+    <title>solar24h.com Product Feed</title>
+    <link>${COMPANY_INFO.website}</link>
+    <description>Thiết bị điện mặt trời, inverter hybrid và phụ kiện hệ thống điện mặt trời chất lượng cao</description>
+    <lastBuildDate>${new Date().toISOString()}</lastBuildDate>
+    <generator>solar24h.com Product Feed Generator</generator>
+    <language>vi</language>
+    <copyright>Copyright ${new Date().getFullYear()} ${COMPANY_INFO.name}</copyright>
+    <!-- No products available at this time -->
+  </channel>
+</rss>`;
+
+    return new Response(errorXml, {
+      status: 200, // Return 200 to avoid Google stopping crawls
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=300', // Shorter cache on error (5 minutes)
+        'X-Robots-Tag': 'noindex',
+      },
+    });
+  }
+}; 

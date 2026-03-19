@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { MOCK_CATEGORIES, MOCK_PRODUCTS, MOCK_BRANDS } from "../../data/mock-products";
+import CategoryPageWrapper from "../../components/react/CategoryPageWrapper";
+
+export async function getStaticPaths() {
+  return MOCK_CATEGORIES.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { slug } = Astro.params;
+const { category } = Astro.props;
+
+const initialProducts = (MOCK_PRODUCTS as any[]).filter(p => p.category_id === category.id).map(p => ({
+  ...p,
+  brands: { title: p.brand, slug: p.brand_slug },
+  product_cats: { title: category.title, slug: category.slug },
+}));
+
+const brandIds = [...new Set(initialProducts.map((p: any) => p.brand_id).filter(Boolean))];
+const brands = MOCK_BRANDS.filter(b => brandIds.includes(b.id)).map(b => ({
+  id: String(b.id),
+  title: b.title,
+  slug: b.slug,
+}));
+
+const categoryInfo = {
+  title: category?.title || slug || "Danh mục sản phẩm",
+  description: category?.description,
+  image_url: category?.image_url,
+};
+
+const title = `${categoryInfo.title} | G3 - Solar`;
+const description =
+  categoryInfo.description ||
+  `Khám phá các sản phẩm thuộc danh mục ${categoryInfo.title} tại G3.vn. Thiết bị năng lượng mặt trời, bảo hành 12 tháng, giao hàng toàn quốc.`;
+---
+
+<Layout
+  title={title}
+  description={description}
+  image={categoryInfo.image_url
+    ? `https://solar24h.com${categoryInfo.image_url.replace(/^\/solar24h\//, "/solar24h-otm/").replace(/\.(jpg|jpeg|png|webp)$/i, ".avif")}`
+    : "https://solar24h.com/images/og-default.jpg"}
+  imageAlt={`${categoryInfo.title} - solar24h.com`}
+  type="website"
+  keywords={[
+    categoryInfo.title,
+    "solar24h.com",
+    "thiết bị điện mặt trời",
+    "tấm pin mặt trời",
+    "hệ thống điện mặt trời",
+    "chất lượng cao",
+  ]}
+  canonical={`https://solar24h.com/categories/${category?.slug || slug}`}
+>
+  <CategoryPageWrapper
+    categorySlug={slug}
+    categoryData={category as any}
+    initialProducts={initialProducts}
+    availableBrands={brands}
+    client:idle
+  />
+</Layout>

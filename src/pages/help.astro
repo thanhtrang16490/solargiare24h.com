@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MobileHelpPage from '../components/mobile/MobileHelpPage.tsx';
+---
+
+<style>
+  @import '../styles/help-animations.css';
+</style>
+
+<Layout 
+  title="Trợ giúp - Thiết bị điện mặt trời"
+  description="Hướng dẫn và hỗ trợ khách hàng mua thiết bị điện mặt trời. Tìm hiểu về sản phẩm, chính sách bảo hành và cách chọn hệ thống solar phù hợp."
+>
+  <MobileHelpPage client:load />
+</Layout>
