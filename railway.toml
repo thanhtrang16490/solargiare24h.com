@@ -1,7 +1,7 @@
 [deploy]
-startCommand = "npx serve dist -l 4321 --single"
+startCommand = "npx serve dist -l 4322 --single"
 healthcheckPath = "/"
 healthcheckTimeout = 30
 
 [[services]]
-port = 4321
+port = 4322
